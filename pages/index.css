@@ -5,5 +5,19 @@
 @import url('../blocks/page/page.css');
 @import url('../blocks/container/container.css');
 
+
 @import url('../blocks/header/header.css');
 @import url('../blocks/header/__logo/header__logo.css');
+
+
+@import url('../blocks/content/__profile/content__profile.css');
+
+
+@import url('../blocks/profile/profile.css');
+@import url('../blocks/profile/__avatar/profile__avatar.css');
+@import url('../blocks/profile/__name-wrapper/profile__name-wrapper.css');
+@import url('../blocks/profile/__info/profile__info.css');
+@import url('../blocks/profile/__name/profile__name.css');
+@import url('../blocks/profile/__edit-button/profile__edit-button.css');
+@import url('../blocks/profile/__job/profile__job.css');
+@import url('../blocks/profile/__add-button/profile__add-button.css');
