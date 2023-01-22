@@ -10,4 +10,23 @@
     background-size: 22px 22px;
     border: 2px solid #FFFFFF;
     border-radius: 2px;
+    transition: opacity 0.2s linear;
+    cursor: pointer;
+}
+
+.profile__add-button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 720px) {
+    .profile__add-button {
+        margin: 10px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .profile__add-button {
+        width: 100%;
+        background-size: 16px 16px;
+    }
 }

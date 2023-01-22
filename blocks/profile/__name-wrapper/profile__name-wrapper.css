@@ -3,3 +3,9 @@
     align-items: center;
     gap: 18px;
 }
+
+@media screen and (max-width: 320px) {
+    .profile__name-wrapper {
+        gap: 10px;
+    }
+}

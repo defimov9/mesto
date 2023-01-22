@@ -3,3 +3,16 @@
     flex-direction: column;
     gap: 16px;
 }
+
+@media screen and (max-width: 720px) {
+    .profile__info {
+        align-items: center;
+        gap: 14px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .profile__info {
+        gap: 14px;
+    }
+}
