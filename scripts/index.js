@@ -4,26 +4,26 @@ const popup = document.querySelector('.popup');
 const currName = document.querySelector('.profile__name');
 const currJob = document.querySelector('.profile__job');
 const popupForm = document.querySelector('.popup__form');
-const nameField = popupForm.querySelector('#userName-field');
-const jobField = popupForm.querySelector('#userJob-field')
+const nameField = popupForm.querySelector('.popup__input_type_name');
+const jobField = popupForm.querySelector('.popup__input_type_job');
 
-const closePopup = () => {
-    popup.style.display = 'none';
+const closeOrOpenPopup = () => {
+    popup.classList.toggle('popup_opened');
 };
 
 const editProfileData = (event) => {
     event.preventDefault();
     currName.textContent = nameField.value;
     currJob.textContent = jobField.value;
-    closePopup();
+    closeOrOpenPopup();
 };
 
-const handleCurrentData = () => {
-    popup.style.display = 'block';
+const handleCurrentProfileInfo = () => {
+    closeOrOpenPopup();
     nameField.value = currName.textContent;
     jobField.value = currJob.textContent;
 };
 
-editButton.addEventListener('click', handleCurrentData);
-closeButton.addEventListener('click', closePopup);
+editButton.addEventListener('click', handleCurrentProfileInfo);
+closeButton.addEventListener('click', closeOrOpenPopup);
 popupForm.addEventListener('submit', editProfileData);
