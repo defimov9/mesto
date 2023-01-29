@@ -9,6 +9,9 @@ const jobField = popupForm.querySelector('.popup__input_type_job');
 
 const closeOrOpenPopup = () => {
     popup.classList.toggle('popup_opened');
+    if (popup.classList.contains('popup_opened')) {
+        handleCurrentProfileInfo();
+    }
 };
 
 const editProfileData = (event) => {
@@ -19,11 +22,10 @@ const editProfileData = (event) => {
 };
 
 const handleCurrentProfileInfo = () => {
-    closeOrOpenPopup();
     nameField.value = currName.textContent;
     jobField.value = currJob.textContent;
 };
 
-editButton.addEventListener('click', handleCurrentProfileInfo);
+editButton.addEventListener('click', closeOrOpenPopup);
 closeButton.addEventListener('click', closeOrOpenPopup);
 popupForm.addEventListener('submit', editProfileData);
