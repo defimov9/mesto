@@ -2,6 +2,7 @@ const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const addPhotoPopup = document.querySelector('.popup_type_add-photo');
+const photoPopup = document.querySelector('.popup_type_photo');
 const currName = document.querySelector('.profile__name');
 const currJob = document.querySelector('.profile__job');
 const nameField = document.querySelector('.popup__input_type_name');
@@ -35,6 +36,8 @@ const createCardElement = ({ name, link }) => {
   cardImage.src = link;
   cardImage.alt = name;
 
+  cardImage.addEventListener('click', openPopup);
+
   cardLike.addEventListener('click', () => {
     cardLike.classList.toggle('elements__like_active');
   });
@@ -50,13 +53,13 @@ const addCard = (event) => {
   event.preventDefault();
   const name = currPopup.querySelector('.popup__input_type_title').value;
   const link = currPopup.querySelector('.popup__input_type_url').value;
-  if (!name && !link) return;
+  if (!name || !link) return;
   cardsContainer.prepend(createCardElement({ name, link }));
   closePopup();
 };
 
 const closePopup = () => {
-  currForm.reset();
+  currForm?.reset();
   currPopup.classList.remove('popup_opened');
 };
 
@@ -72,6 +75,15 @@ const openPopup = (event) => {
     currPopup = addPhotoPopup;
     currForm = currPopup.querySelector('.popup__form');
     currForm.addEventListener('submit', addCard);
+  }
+  if (currPopup.classList.contains('elements__image')) {
+    const photoInfo = currPopup;
+    currPopup = photoPopup;
+    const photo = photoPopup.querySelector('.popup__photo');
+    const photoSubtitle = photoPopup.querySelector('.popup__subtitle');
+    photo.src = photoInfo.src;
+    photo.alt = photoInfo.alt;
+    photoSubtitle.textContent = photoInfo.alt;
   }
   currPopup.classList.add('popup_opened');
   const closeButton = currPopup.querySelector('.popup__close');
