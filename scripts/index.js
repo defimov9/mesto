@@ -36,10 +36,19 @@ const hideInputErrors = (popup) => {
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
   hideInputErrors(popup);
+  document.removeEventListener('keydown', handleEscPressed);
 };
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', handleEscPressed);
+};
+
+const handleEscPressed = (event) => {
+  if (event.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+  }
 };
 
 editButton.addEventListener('click', () => {
@@ -122,12 +131,5 @@ addPhotoForm.addEventListener('submit', addCard);
 const renderInitialCards = (cards) => {
   cards.forEach((card) => cardsContainer.append(createCardElement(card)));
 };
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-});
 
 renderInitialCards(initialCards);
