@@ -53,7 +53,10 @@ const addCard = (event) => {
   event.preventDefault();
   const name = currPopup.querySelector('.popup__input_type_title').value;
   const link = currPopup.querySelector('.popup__input_type_url').value;
-  if (!name || !link) return;
+  if (!name || !link) {
+    event.target.querySelector('.popup__submit').disabled = true;
+    return;
+  }
   cardsContainer.prepend(createCardElement({ name, link }));
   closePopup();
 };
