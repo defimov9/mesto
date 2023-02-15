@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="pages/index.css" />
+    <script defer src="scripts/initial-cards.js"></script>
+    <script defer src="scripts/validate.js"></script>
+    <script defer src="scripts/index.js"></script>
     <title>mesto</title>
   </head>
   <body class="page">
@@ -34,7 +37,7 @@
       <div class="popup popup_type_edit-profile">
         <div class="popup__container">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form class="popup__form" name="popup-form" action="#" novalidate>
+          <form class="popup__form" name="edit-profile" action="#" novalidate>
             <input
               type="text"
               name="userName"
@@ -61,7 +64,7 @@
       <div class="popup popup_type_add-photo">
         <div class="popup__container">
           <h2 class="popup__title">Новое место</h2>
-          <form class="popup__form" name="popup-form" action="#" novalidate>
+          <form class="popup__form" name="add-photo" action="#" novalidate>
             <input
               type="text"
               name="title"
@@ -97,7 +100,7 @@
     </div>
     <template id="card-template">
       <li class="elements__card">
-        <img src="" alt="" class="elements__image" />
+        <img class="elements__image" />
         <div class="elements__remove"></div>
         <div class="elements__info-container">
           <h2 class="elements__title"></h2>
@@ -105,8 +108,5 @@
         </div>
       </li>
     </template>
-    <script src="scripts/initial-cards.js"></script>
-    <script src="scripts/validate.js"></script>
-    <script src="scripts/index.js"></script>
   </body>
 </html>
