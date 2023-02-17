@@ -106,11 +106,23 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   }
 };
 
-enableValidation({
+const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit',
   inactiveButtonClass: 'popup__submit_inactive',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active',
-});
+};
+
+enableValidation(validationConfig);
+
+const hideFormErrors = (popup) => {
+  const invalidInputs = popup.querySelectorAll('.popup__input_type_error');
+  const errors = popup.querySelectorAll('.popup__input-error_active');
+  for (let i = 0; i < invalidInputs.length; i++) {
+    invalidInputs[i].classList.remove('popup__input_type_error');
+    errors[i].classList.remove('popup__input-error_active');
+    errors[i].textContent = '-';
+  }
+};

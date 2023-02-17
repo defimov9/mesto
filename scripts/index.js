@@ -23,23 +23,22 @@ const addPhotoSubmitButton = addPhotoForm.querySelector('.popup__submit');
 const cardsContainer = document.querySelector('.elements');
 const cardTemplate = document.querySelector('#card-template').content;
 
-const hideInputErrors = (popup) => {
-  const inputs = popup.querySelectorAll('.popup__input');
-  const errors = popup.querySelectorAll('.popup__input-error');
-  for (let i = 0; i < inputs.length; i++) {
-    inputs[i].classList.remove('popup__input_type_error');
-    errors[i].classList.remove('popup__input-error_active');
-    errors[i].textContent = '-';
-  }
-};
-
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
-  hideInputErrors(popup);
+  document.removeEventListener('keydown', handleEscPressed);
 };
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
+  if (popup.querySelector('.popup__form')) hideFormErrors(popup);
+  document.addEventListener('keydown', handleEscPressed);
+};
+
+const handleEscPressed = (event) => {
+  if (event.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+  }
 };
 
 editButton.addEventListener('click', () => {
@@ -107,14 +106,18 @@ const createCardElement = ({ name, link }) => {
   return cardElement;
 };
 
+const disableSubmitButton = (button) => {
+  button.disabled = true;
+  button.classList.add('popup__submit_inactive');
+};
+
 const addCard = (event) => {
   event.preventDefault();
   const name = titleField.value;
   const link = urlField.value;
   cardsContainer.prepend(createCardElement({ name, link }));
+  disableSubmitButton(addPhotoSubmitButton);
   closePopup(addPhotoPopup);
-  addPhotoSubmitButton.disabled = true;
-  addPhotoSubmitButton.classList.add('popup__submit_inactive');
 };
 
 addPhotoForm.addEventListener('submit', addCard);
