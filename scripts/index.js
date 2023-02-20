@@ -122,11 +122,4 @@ const renderInitialCards = (cards) => {
   cards.forEach((card) => cardsContainer.append(createCardElement(card)));
 };
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-});
-
 renderInitialCards(initialCards);
