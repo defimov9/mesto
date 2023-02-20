@@ -117,12 +117,17 @@ const validationConfig = {
 
 enableValidation(validationConfig);
 
-const hideFormErrors = (popup) => {
-  const invalidInputs = popup.querySelectorAll('.popup__input_type_error');
-  const errors = popup.querySelectorAll('.popup__input-error_active');
+const hideFormErrors = (form) => {
+  const invalidInputs = form.querySelectorAll('.popup__input_type_error');
+  const errors = form.querySelectorAll('.popup__input-error_active');
   for (let i = 0; i < invalidInputs.length; i++) {
     invalidInputs[i].classList.remove('popup__input_type_error');
     errors[i].classList.remove('popup__input-error_active');
     errors[i].textContent = '-';
   }
+};
+
+const disableSubmitButton = (button) => {
+  button.disabled = true;
+  button.classList.add('popup__submit_inactive');
 };

@@ -30,7 +30,6 @@ const closePopup = (popup) => {
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
-  if (popup.querySelector('.popup__form')) hideFormErrors(popup);
   document.addEventListener('keydown', handleEscPressed);
 };
 
@@ -43,11 +42,13 @@ const handleEscPressed = (event) => {
 
 editButton.addEventListener('click', () => {
   handleCurrentProfileInfo();
+  hideFormErrors(editProfileForm);
   openPopup(editProfilePopup);
 });
 
 addButton.addEventListener('click', () => {
   addPhotoForm.reset();
+  hideFormErrors(addPhotoForm);
   openPopup(addPhotoPopup);
 });
 
@@ -104,11 +105,6 @@ const createCardElement = ({ name, link }) => {
   cardRemove.addEventListener('click', () => cardElement.remove());
 
   return cardElement;
-};
-
-const disableSubmitButton = (button) => {
-  button.disabled = true;
-  button.classList.add('popup__submit_inactive');
 };
 
 const addCard = (event) => {
