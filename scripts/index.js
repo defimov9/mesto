@@ -1,54 +1,36 @@
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
+import {
+  editButton,
+  addButton,
+  popups,
+  editProfilePopup,
+  addPhotoPopup,
+  editProfileForm,
+  nameField,
+  jobField,
+  currName,
+  currJob,
+  addPhotoForm,
+  titleField,
+  urlField,
+  cardsContainer,
+  initialCards,
+  validationConfig,
+  cardTemplateSelector,
+} from './constants.js';
 
-const popups = document.querySelectorAll('.popup');
-const editProfilePopup = document.querySelector('.popup_type_edit-profile');
-const addPhotoPopup = document.querySelector('.popup_type_add-photo');
-const photoPopup = document.querySelector('.popup_type_photo');
-
-const imageInPhotoPopup = photoPopup.querySelector('.popup__photo');
-const subtitleInPhotoPopup = photoPopup.querySelector('.popup__subtitle');
-
-const editProfileForm = editProfilePopup.querySelector('.popup__form');
-const nameField = editProfileForm.querySelector('.popup__input_type_name');
-const jobField = editProfileForm.querySelector('.popup__input_type_job');
-const currName = document.querySelector('.profile__name');
-const currJob = document.querySelector('.profile__job');
-
-const addPhotoForm = addPhotoPopup.querySelector('.popup__form');
-const titleField = addPhotoForm.querySelector('.popup__input_type_title');
-const urlField = addPhotoForm.querySelector('.popup__input_type_url');
-const addPhotoSubmitButton = addPhotoForm.querySelector('.popup__submit');
-
-const cardsContainer = document.querySelector('.elements');
-const cardTemplate = document.querySelector('#card-template').content;
-
-const closePopup = (popup) => {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', handleEscPressed);
-};
-
-const openPopup = (popup) => {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', handleEscPressed);
-};
-
-const handleEscPressed = (event) => {
-  if (event.key === 'Escape') {
-    const popup = document.querySelector('.popup_opened');
-    closePopup(popup);
-  }
-};
+import { closePopup, openPopup } from './utils.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 editButton.addEventListener('click', () => {
   handleCurrentProfileInfo();
-  hideFormErrors(editProfileForm);
+  editProfileFormValidator.hideFormErrors();
   openPopup(editProfilePopup);
 });
 
 addButton.addEventListener('click', () => {
   addPhotoForm.reset();
-  hideFormErrors(addPhotoForm);
+  addPhotoFormValidator.hideFormErrors();
   openPopup(addPhotoPopup);
 });
 
@@ -71,55 +53,36 @@ const editProfileData = (event) => {
   event.preventDefault();
   currName.textContent = nameField.value;
   currJob.textContent = jobField.value;
+  editProfileFormValidator.disableSubmitButton();
   closePopup(editProfilePopup);
 };
 
 editProfileForm.addEventListener('submit', editProfileData);
 
-const openImagePopup = (name, link) => {
-  imageInPhotoPopup.src = link;
-  imageInPhotoPopup.alt = name;
-  subtitleInPhotoPopup.textContent = name;
-  openPopup(photoPopup);
-};
-
-const createCardElement = ({ name, link }) => {
-  const cardElement = cardTemplate
-    .querySelector('.elements__card')
-    .cloneNode(true);
-  const cardTitle = cardElement.querySelector('.elements__title');
-  const cardImage = cardElement.querySelector('.elements__image');
-  const cardLike = cardElement.querySelector('.elements__like');
-  const cardRemove = cardElement.querySelector('.elements__remove');
-
-  cardTitle.textContent = name;
-  cardImage.src = link;
-  cardImage.alt = name;
-
-  cardImage.addEventListener('click', () => openImagePopup(name, link));
-
-  cardLike.addEventListener('click', () =>
-    cardLike.classList.toggle('elements__like_active')
-  );
-
-  cardRemove.addEventListener('click', () => cardElement.remove());
-
-  return cardElement;
-};
-
 const addCard = (event) => {
   event.preventDefault();
-  const name = titleField.value;
-  const link = urlField.value;
-  cardsContainer.prepend(createCardElement({ name, link }));
-  disableSubmitButton(addPhotoSubmitButton);
+  const card = { name: titleField.value, link: urlField.value };
+  cardsContainer.prepend(new Card(card, cardTemplateSelector).generateCard());
+  addPhotoFormValidator.disableSubmitButton();
   closePopup(addPhotoPopup);
 };
 
 addPhotoForm.addEventListener('submit', addCard);
 
 const renderInitialCards = (cards) => {
-  cards.forEach((card) => cardsContainer.append(createCardElement(card)));
+  cards.forEach((card) => {
+    const cardElement = new Card(card, cardTemplateSelector).generateCard();
+    cardsContainer.append(cardElement);
+  });
 };
 
 renderInitialCards(initialCards);
+
+const createFormValidator = (form) => {
+  const formValidator = new FormValidator(validationConfig, form);
+  formValidator.enableValidation();
+  return formValidator;
+};
+
+const editProfileFormValidator = createFormValidator(editProfileForm);
+const addPhotoFormValidator = createFormValidator(addPhotoForm);
