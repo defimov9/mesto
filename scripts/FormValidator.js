@@ -43,8 +43,7 @@ export default class FormValidator {
 
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.disabled = true;
+      this.disableSubmitButton();
     } else {
       this._buttonElement.classList.remove(this._inactiveButtonClass);
       this._buttonElement.disabled = false;
@@ -69,12 +68,7 @@ export default class FormValidator {
     const invalidInputs = this._form.querySelectorAll(
       `.${this._inputErrorClass}`
     );
-    const errors = this._form.querySelectorAll(`.${this._errorClass}`);
-    for (let i = 0; i < invalidInputs.length; i++) {
-      invalidInputs[i].classList.remove(this._inputErrorClass);
-      errors[i].classList.remove(this._errorClass);
-      errors[i].textContent = '-';
-    }
+    invalidInputs.forEach((input) => this._hideInputError(input));
   }
 
   disableSubmitButton() {
