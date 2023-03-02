@@ -30,6 +30,7 @@ editButton.addEventListener('click', () => {
 
 addButton.addEventListener('click', () => {
   addPhotoForm.reset();
+  addPhotoFormValidator.disableSubmitButton();
   addPhotoFormValidator.hideFormErrors();
   openPopup(addPhotoPopup);
 });
@@ -59,11 +60,13 @@ const editProfileData = (event) => {
 
 editProfileForm.addEventListener('submit', editProfileData);
 
+const createCard = (card) =>
+  new Card(card, cardTemplateSelector).generateCard();
+
 const addCard = (event) => {
   event.preventDefault();
   const card = { name: titleField.value, link: urlField.value };
-  cardsContainer.prepend(new Card(card, cardTemplateSelector).generateCard());
-  addPhotoFormValidator.disableSubmitButton();
+  cardsContainer.prepend(createCard(card));
   closePopup(addPhotoPopup);
 };
 
@@ -71,8 +74,7 @@ addPhotoForm.addEventListener('submit', addCard);
 
 const renderInitialCards = (cards) => {
   cards.forEach((card) => {
-    const cardElement = new Card(card, cardTemplateSelector).generateCard();
-    cardsContainer.append(cardElement);
+    cardsContainer.append(createCard(card));
   });
 };
 
