@@ -84,14 +84,6 @@ const cardList = new Section(
 
 cardList.renderItems();
 
-// const renderInitialCards = (cards) => {
-//   cards.forEach((card) => {
-//     cardsContainer.append(createCard(card));
-//   });
-// };
-
-// renderInitialCards(initialCards);
-
 const createFormValidator = (form) => {
   const formValidator = new FormValidator(validationConfig, form);
   formValidator.enableValidation();
