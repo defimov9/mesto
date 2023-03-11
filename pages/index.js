@@ -16,11 +16,13 @@ import {
   initialCards,
   validationConfig,
   cardTemplateSelector,
-} from './constants.js';
+  cardsContainerSelector,
+} from '../utils/constants.js';
 
-import { closePopup, openPopup } from './utils.js';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
+import { closePopup, openPopup } from '../utils/utils.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
 
 editButton.addEventListener('click', () => {
   handleCurrentProfileInfo();
@@ -72,13 +74,23 @@ const addCard = (event) => {
 
 addPhotoForm.addEventListener('submit', addCard);
 
-const renderInitialCards = (cards) => {
-  cards.forEach((card) => {
-    cardsContainer.append(createCard(card));
-  });
-};
+const cardList = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => createCard(item),
+  },
+  cardsContainerSelector
+);
 
-renderInitialCards(initialCards);
+cardList.renderItems();
+
+// const renderInitialCards = (cards) => {
+//   cards.forEach((card) => {
+//     cardsContainer.append(createCard(card));
+//   });
+// };
+
+// renderInitialCards(initialCards);
 
 const createFormValidator = (form) => {
   const formValidator = new FormValidator(validationConfig, form);

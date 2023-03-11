@@ -20,6 +20,7 @@ const titleField = addPhotoForm.querySelector('.popup__input_type_title');
 const urlField = addPhotoForm.querySelector('.popup__input_type_url');
 
 const cardsContainer = document.querySelector('.elements');
+const cardsContainerSelector = '.elements';
 const cardTemplateSelector = '#card-template';
 
 const validationConfig = {
@@ -79,4 +80,5 @@ export {
   cardTemplateSelector,
   validationConfig,
   initialCards,
+  cardsContainerSelector,
 };

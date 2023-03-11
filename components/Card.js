@@ -2,9 +2,9 @@ import {
   imageInPhotoPopup,
   subtitleInPhotoPopup,
   photoPopup,
-} from './constants.js';
+} from '../utils/constants.js';
 
-import { openPopup } from './utils.js';
+import { openPopup } from '../utils/utils.js';
 
 export default class Card {
   constructor(data, templateSelector) {
