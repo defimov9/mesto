@@ -1,24 +1,21 @@
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
-const popups = document.querySelectorAll('.popup');
-const editProfilePopup = document.querySelector('.popup_type_edit-profile');
-const addPhotoPopup = document.querySelector('.popup_type_add-photo');
-const photoPopup = document.querySelector('.popup_type_photo');
 const photoPopupSelector = '.popup_type_photo';
+const editProfilePopupSelector = '.popup_type_edit-profile';
+const addPhotoPopupSelector = '.popup_type_add-photo';
 
-const imageInPhotoPopup = photoPopup.querySelector('.popup__photo');
-const subtitleInPhotoPopup = photoPopup.querySelector('.popup__subtitle');
+const editProfilePopup = document.querySelector(editProfilePopupSelector);
+const addPhotoPopup = document.querySelector(addPhotoPopupSelector);
 
 const editProfileForm = editProfilePopup.querySelector('.popup__form');
 const nameField = editProfileForm.querySelector('.popup__input_type_name');
 const jobField = editProfileForm.querySelector('.popup__input_type_job');
-const currName = document.querySelector('.profile__name');
-const currJob = document.querySelector('.profile__job');
+
+const userNameSelector = '.profile__name';
+const userJobSelector = '.profile__job';
 
 const addPhotoForm = addPhotoPopup.querySelector('.popup__form');
-const titleField = addPhotoForm.querySelector('.popup__input_type_title');
-const urlField = addPhotoForm.querySelector('.popup__input_type_url');
 
 const cardsContainer = document.querySelector('.elements');
 const cardsContainerSelector = '.elements';
@@ -63,24 +60,18 @@ const initialCards = [
 export {
   editButton,
   addButton,
-  popups,
-  editProfilePopup,
-  addPhotoPopup,
-  photoPopup,
-  imageInPhotoPopup,
-  subtitleInPhotoPopup,
   editProfileForm,
   nameField,
   jobField,
-  currName,
-  currJob,
   addPhotoForm,
-  titleField,
-  urlField,
   cardsContainer,
   cardTemplateSelector,
   validationConfig,
   initialCards,
   cardsContainerSelector,
   photoPopupSelector,
+  userJobSelector,
+  userNameSelector,
+  editProfilePopupSelector,
+  addPhotoPopupSelector,
 };
