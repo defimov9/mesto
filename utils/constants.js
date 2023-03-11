@@ -5,6 +5,7 @@ const popups = document.querySelectorAll('.popup');
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const addPhotoPopup = document.querySelector('.popup_type_add-photo');
 const photoPopup = document.querySelector('.popup_type_photo');
+const photoPopupSelector = '.popup_type_photo';
 
 const imageInPhotoPopup = photoPopup.querySelector('.popup__photo');
 const subtitleInPhotoPopup = photoPopup.querySelector('.popup__subtitle');
@@ -81,4 +82,5 @@ export {
   validationConfig,
   initialCards,
   cardsContainerSelector,
+  photoPopupSelector,
 };

@@ -17,12 +17,14 @@ import {
   validationConfig,
   cardTemplateSelector,
   cardsContainerSelector,
+  photoPopupSelector,
 } from '../utils/constants.js';
 
 import { closePopup, openPopup } from '../utils/utils.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 editButton.addEventListener('click', () => {
   handleCurrentProfileInfo();
@@ -62,8 +64,13 @@ const editProfileData = (event) => {
 
 editProfileForm.addEventListener('submit', editProfileData);
 
+const popupWithImage = new PopupWithImage(photoPopupSelector);
+popupWithImage.setEventListeners();
+
 const createCard = (card) =>
-  new Card(card, cardTemplateSelector).generateCard();
+  new Card(card, cardTemplateSelector, () =>
+    popupWithImage.open(card)
+  ).generateCard();
 
 const addCard = (event) => {
   event.preventDefault();
