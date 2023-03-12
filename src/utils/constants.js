@@ -5,17 +5,8 @@ const photoPopupSelector = '.popup_type_photo';
 const editProfilePopupSelector = '.popup_type_edit-profile';
 const addPhotoPopupSelector = '.popup_type_add-photo';
 
-const editProfilePopup = document.querySelector(editProfilePopupSelector);
-const addPhotoPopup = document.querySelector(addPhotoPopupSelector);
-
-const editProfileForm = editProfilePopup.querySelector('.popup__form');
-const nameField = editProfileForm.querySelector('.popup__input_type_name');
-const jobField = editProfileForm.querySelector('.popup__input_type_job');
-
 const userNameSelector = '.profile__name';
 const userJobSelector = '.profile__job';
-
-const addPhotoForm = addPhotoPopup.querySelector('.popup__form');
 
 const cardsContainer = document.querySelector('.elements');
 const cardsContainerSelector = '.elements';
@@ -60,10 +51,6 @@ const initialCards = [
 export {
   editButton,
   addButton,
-  editProfileForm,
-  nameField,
-  jobField,
-  addPhotoForm,
   cardsContainer,
   cardTemplateSelector,
   validationConfig,

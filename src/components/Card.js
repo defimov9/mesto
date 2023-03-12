@@ -4,6 +4,11 @@ export default class Card {
     this._link = link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._element = this._getTemplate();
+    this._cardImage = this._element.querySelector('.elements__image');
+    this._cardTitle = this._element.querySelector('.elements__title');
+    this._likeButton = this._element.querySelector('.elements__like');
+    this._removeButton = this._element.querySelector('.elements__remove');
   }
 
   _getTemplate() {
@@ -16,11 +21,6 @@ export default class Card {
   }
 
   generateCard() {
-    this._element = this._getTemplate();
-    this._cardImage = this._element.querySelector('.elements__image');
-    this._cardTitle = this._element.querySelector('.elements__title');
-    this._likeButton = this._element.querySelector('.elements__like');
-
     this._setEventListeners();
 
     this._cardImage.src = this._link;
@@ -41,9 +41,6 @@ export default class Card {
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => this._togleLike());
     this._cardImage.addEventListener('click', this._handleCardClick);
-
-    this._element
-      .querySelector('.elements__remove')
-      .addEventListener('click', () => this._removeCard());
+    this._removeButton.addEventListener('click', () => this._removeCard());
   }
 }

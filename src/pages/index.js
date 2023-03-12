@@ -3,10 +3,6 @@ import '../pages/index.css';
 import {
   editButton,
   addButton,
-  editProfileForm,
-  nameField,
-  jobField,
-  addPhotoForm,
   initialCards,
   validationConfig,
   cardTemplateSelector,
@@ -26,16 +22,15 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
 editButton.addEventListener('click', () => {
-  editProfileFormValidator.hideFormErrors();
-  const { name, job } = userInfo.getUserInfo();
-  nameField.value = name;
-  jobField.value = job;
+  formValidators['edit-profile'].disableSubmitButton();
+  formValidators['edit-profile'].hideFormErrors();
+  editProfilePopup.setInputValues(userInfo.getUserInfo());
   editProfilePopup.open();
 });
 
 addButton.addEventListener('click', () => {
-  addPhotoFormValidator.disableSubmitButton();
-  addPhotoFormValidator.hideFormErrors();
+  formValidators['add-photo'].disableSubmitButton();
+  formValidators['add-photo'].hideFormErrors();
   addPhotoPopup.open();
 });
 
@@ -43,20 +38,14 @@ const userInfo = new UserInfo({ userNameSelector, userJobSelector });
 
 const editProfilePopup = new PopupWithForm(
   editProfilePopupSelector,
-  ({ name, job }) => {
-    userInfo.setUserInfo({ name, job });
-    editProfileFormValidator.disableSubmitButton();
-  }
+  (userData) => userInfo.setUserInfo(userData)
 );
 editProfilePopup.setEventListeners();
 
-const addPhotoPopup = new PopupWithForm(
-  addPhotoPopupSelector,
-  ({ name, link }) => {
-    const card = { name, link };
-    cardList.addItem(card);
-  }
+const addPhotoPopup = new PopupWithForm(addPhotoPopupSelector, (card) =>
+  cardList.addItem(card)
 );
+
 addPhotoPopup.setEventListeners();
 
 const popupWithImage = new PopupWithImage(photoPopupSelector);
@@ -70,18 +59,23 @@ const createCard = (card) =>
 const cardList = new Section(
   {
     items: initialCards,
-    renderer: (item) => createCard(item),
+    renderer: createCard,
   },
   cardsContainerSelector
 );
 
 cardList.renderItems();
 
-const createFormValidator = (form) => {
-  const formValidator = new FormValidator(validationConfig, form);
-  formValidator.enableValidation();
-  return formValidator;
+const formValidators = {};
+
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
 };
 
-const editProfileFormValidator = createFormValidator(editProfileForm);
-const addPhotoFormValidator = createFormValidator(addPhotoForm);
+enableValidation(validationConfig);
