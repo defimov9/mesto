@@ -26,8 +26,14 @@ import Api from '../components/Api.js';
 
 const api = new Api(apiConfig);
 
-api.getUserData().then((userData) => userInfo.setUserInfo(userData));
-api.getInitialCards().then((cards) => cardList.renderItems(cards));
+api
+  .getUserData()
+  .then((userData) => userInfo.setUserInfo(userData))
+  .catch((err) => console.log(err));
+api
+  .getInitialCards()
+  .then((cards) => cardList.renderItems(cards))
+  .catch((err) => console.log(err));
 
 editButton.addEventListener('click', () => {
   formValidators['edit-profile'].disableSubmitButton();
@@ -50,13 +56,21 @@ const userInfo = new UserInfo({
 
 const editProfilePopup = new PopupWithForm(
   editProfilePopupSelector,
-  (userData) => userInfo.setUserInfo(userData)
+  (userData) => {
+    api
+      .updateUserInfo(userData)
+      .then((updatedUserInfo) => userInfo.setUserInfo(updatedUserInfo))
+      .catch((err) => console.log(err));
+  }
 );
 editProfilePopup.setEventListeners();
 
-const addPhotoPopup = new PopupWithForm(addPhotoPopupSelector, (card) =>
-  cardList.addItem(card)
-);
+const addPhotoPopup = new PopupWithForm(addPhotoPopupSelector, (card) => {
+  api
+    .addNewCard(card)
+    .then((newCard) => cardList.addItem(newCard))
+    .catch((err) => console.log(err));
+});
 
 addPhotoPopup.setEventListeners();
 
