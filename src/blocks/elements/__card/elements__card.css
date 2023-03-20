@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 22px;
     background: #FFFFFF;
     border-radius: 10px;
 }
