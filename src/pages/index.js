@@ -4,12 +4,14 @@ import {
   editButton,
   addButton,
   initialCards,
+  apiConfig,
   validationConfig,
   cardTemplateSelector,
   cardsContainerSelector,
   photoPopupSelector,
   userJobSelector,
   userNameSelector,
+  userAvatarSelector,
   editProfilePopupSelector,
   addPhotoPopupSelector,
 } from '../utils/constants.js';
@@ -20,6 +22,12 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
+
+const api = new Api(apiConfig);
+
+api.getUserData().then((userData) => userInfo.setUserInfo(userData));
+api.getInitialCards().then((cards) => cardList.renderItems(cards));
 
 editButton.addEventListener('click', () => {
   formValidators['edit-profile'].disableSubmitButton();
@@ -34,7 +42,11 @@ addButton.addEventListener('click', () => {
   addPhotoPopup.open();
 });
 
-const userInfo = new UserInfo({ userNameSelector, userJobSelector });
+const userInfo = new UserInfo({
+  userNameSelector,
+  userJobSelector,
+  userAvatarSelector,
+});
 
 const editProfilePopup = new PopupWithForm(
   editProfilePopupSelector,
@@ -56,15 +68,7 @@ const createCard = (card) =>
     popupWithImage.open(card)
   ).generateCard();
 
-const cardList = new Section(
-  {
-    items: initialCards,
-    renderer: createCard,
-  },
-  cardsContainerSelector
-);
-
-cardList.renderItems();
+const cardList = new Section(createCard, cardsContainerSelector);
 
 const formValidators = {};
 

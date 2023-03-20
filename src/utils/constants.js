@@ -7,10 +7,19 @@ const addPhotoPopupSelector = '.popup_type_add-photo';
 
 const userNameSelector = '.profile__name';
 const userJobSelector = '.profile__job';
+const userAvatarSelector = '.profile__avatar';
 
 const cardsContainer = document.querySelector('.elements');
 const cardsContainerSelector = '.elements';
 const cardTemplateSelector = '#card-template';
+
+const apiConfig = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-61',
+  headers: {
+    authorization: 'a24761cd-23d0-46bd-bc4e-60ebdababd56',
+    'Content-Type': 'application/json',
+  },
+};
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -53,12 +62,14 @@ export {
   addButton,
   cardsContainer,
   cardTemplateSelector,
+  apiConfig,
   validationConfig,
   initialCards,
   cardsContainerSelector,
   photoPopupSelector,
   userJobSelector,
   userNameSelector,
+  userAvatarSelector,
   editProfilePopupSelector,
   addPhotoPopupSelector,
 };
