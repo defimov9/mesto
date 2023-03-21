@@ -1,16 +1,28 @@
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const updateAvatar = document.querySelector('.profile__avatar');
 
 const photoPopupSelector = '.popup_type_photo';
 const editProfilePopupSelector = '.popup_type_edit-profile';
 const addPhotoPopupSelector = '.popup_type_add-photo';
+const deleteCardPopupSelector = '.popup_type_delete-card';
+const updateAvatarPopupSelector = '.popup_type_update-avatar';
 
 const userNameSelector = '.profile__name';
 const userJobSelector = '.profile__job';
+const userAvatarSelector = '.profile__avatar';
 
 const cardsContainer = document.querySelector('.elements');
 const cardsContainerSelector = '.elements';
 const cardTemplateSelector = '#card-template';
+
+const apiConfig = {
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-61',
+  headers: {
+    authorization: 'a24761cd-23d0-46bd-bc4e-60ebdababd56',
+    'Content-Type': 'application/json',
+  },
+};
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -51,14 +63,19 @@ const initialCards = [
 export {
   editButton,
   addButton,
+  updateAvatar,
   cardsContainer,
   cardTemplateSelector,
+  apiConfig,
   validationConfig,
   initialCards,
   cardsContainerSelector,
   photoPopupSelector,
   userJobSelector,
   userNameSelector,
+  userAvatarSelector,
   editProfilePopupSelector,
   addPhotoPopupSelector,
+  updateAvatarPopupSelector,
+  deleteCardPopupSelector,
 };
