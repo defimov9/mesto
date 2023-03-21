@@ -1,9 +1,12 @@
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const updateAvatar = document.querySelector('.profile__avatar');
 
 const photoPopupSelector = '.popup_type_photo';
 const editProfilePopupSelector = '.popup_type_edit-profile';
 const addPhotoPopupSelector = '.popup_type_add-photo';
+const deleteCardPopupSelector = '.popup_type_delete-card';
+const updateAvatarPopupSelector = '.popup_type_update-avatar';
 
 const userNameSelector = '.profile__name';
 const userJobSelector = '.profile__job';
@@ -60,6 +63,7 @@ const initialCards = [
 export {
   editButton,
   addButton,
+  updateAvatar,
   cardsContainer,
   cardTemplateSelector,
   apiConfig,
@@ -72,4 +76,6 @@ export {
   userAvatarSelector,
   editProfilePopupSelector,
   addPhotoPopupSelector,
+  updateAvatarPopupSelector,
+  deleteCardPopupSelector,
 };

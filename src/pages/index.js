@@ -3,7 +3,7 @@ import '../pages/index.css';
 import {
   editButton,
   addButton,
-  initialCards,
+  updateAvatar,
   apiConfig,
   validationConfig,
   cardTemplateSelector,
@@ -14,6 +14,8 @@ import {
   userAvatarSelector,
   editProfilePopupSelector,
   addPhotoPopupSelector,
+  updateAvatarPopupSelector,
+  deleteCardPopupSelector,
 } from '../utils/constants.js';
 
 import Card from '../components/Card.js';
@@ -36,6 +38,7 @@ api
     userInfo.setUserInfo(userData);
   })
   .catch((err) => console.log(err));
+
 api
   .getInitialCards()
   .then((cards) => cardList.renderItems(cards))
@@ -54,6 +57,12 @@ addButton.addEventListener('click', () => {
   addPhotoPopup.open();
 });
 
+updateAvatar.addEventListener('click', () => {
+  formValidators['update-avatar'].disableSubmitButton();
+  formValidators['update-avatar'].hideFormErrors();
+  popupUpdateAvatar.open();
+});
+
 const userInfo = new UserInfo({
   userNameSelector,
   userJobSelector,
@@ -63,19 +72,31 @@ const userInfo = new UserInfo({
 const editProfilePopup = new PopupWithForm(
   editProfilePopupSelector,
   (userData) => {
+    formValidators['edit-profile'].disableSubmitButton();
     api
       .updateUserInfo(userData)
       .then((updatedUserInfo) => userInfo.setUserInfo(updatedUserInfo))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        editProfilePopup.close();
+        editProfilePopup.renderLoading(false);
+        formValidators['edit-profile'].enableSubmitButton();
+      });
   }
 );
 editProfilePopup.setEventListeners();
 
 const addPhotoPopup = new PopupWithForm(addPhotoPopupSelector, (card) => {
+  formValidators['add-photo'].disableSubmitButton();
   api
     .addNewCard(card)
     .then((newCard) => cardList.addItem(newCard))
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      addPhotoPopup.close();
+      addPhotoPopup.renderLoading(false);
+      formValidators['add-photo'].enableSubmitButton();
+    });
 });
 addPhotoPopup.setEventListeners();
 
@@ -83,15 +104,38 @@ const popupWithImage = new PopupWithImage(photoPopupSelector);
 popupWithImage.setEventListeners();
 
 const popupDeleteCard = new PopupWithConfirm(
-  '.popup_type_delete-card',
+  deleteCardPopupSelector,
   (card) => {
+    formValidators['delete-card'].disableSubmitButton();
     api
       .deleteCard(card._id)
       .then(() => card.removeCard())
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        popupDeleteCard.close();
+        popupDeleteCard.renderLoading(false);
+        formValidators['delete-card'].enableSubmitButton();
+      });
   }
 );
 popupDeleteCard.setEventListeners();
+
+const popupUpdateAvatar = new PopupWithForm(
+  updateAvatarPopupSelector,
+  ({ link }) => {
+    formValidators['update-avatar'].disableSubmitButton();
+    api
+      .updateUserAvatar(link)
+      .then((updatedUserData) => userInfo.setUserInfo(updatedUserData))
+      .catch((err) => console.log(err))
+      .finally(() => {
+        popupUpdateAvatar.close();
+        popupUpdateAvatar.renderLoading(false);
+        formValidators['update-avatar'].enableSubmitButton();
+      });
+  }
+);
+popupUpdateAvatar.setEventListeners();
 
 const createCard = (card) => {
   const cardItem = new Card(
