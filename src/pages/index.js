@@ -23,12 +23,18 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
+import PopupWithConfirm from '../components/popupWithConfirm';
 
 const api = new Api(apiConfig);
 
+let userId;
+
 api
   .getUserData()
-  .then((userData) => userInfo.setUserInfo(userData))
+  .then((userData) => {
+    userId = userData._id;
+    userInfo.setUserInfo(userData);
+  })
   .catch((err) => console.log(err));
 api
   .getInitialCards()
@@ -71,16 +77,48 @@ const addPhotoPopup = new PopupWithForm(addPhotoPopupSelector, (card) => {
     .then((newCard) => cardList.addItem(newCard))
     .catch((err) => console.log(err));
 });
-
 addPhotoPopup.setEventListeners();
 
 const popupWithImage = new PopupWithImage(photoPopupSelector);
 popupWithImage.setEventListeners();
 
-const createCard = (card) =>
-  new Card(card, cardTemplateSelector, () =>
-    popupWithImage.open(card)
-  ).generateCard();
+const popupDeleteCard = new PopupWithConfirm(
+  '.popup_type_delete-card',
+  (card) => {
+    api
+      .deleteCard(card._id)
+      .then(() => card.removeCard())
+      .catch((err) => console.log(err));
+  }
+);
+popupDeleteCard.setEventListeners();
+
+const createCard = (card) => {
+  const cardItem = new Card(
+    card,
+    cardTemplateSelector,
+    () => popupWithImage.open(card),
+    () => {
+      popupDeleteCard.setCard(cardItem);
+      popupDeleteCard.open();
+    },
+    () => {
+      if (cardItem.isLiked()) {
+        api.deleteLike(cardItem._id).then((updatedCard) => {
+          cardItem.updateLikesData(updatedCard);
+          cardItem.updateLikesCount();
+        });
+      } else {
+        api.addLike(cardItem._id).then((updatedCard) => {
+          cardItem.updateLikesData(updatedCard);
+          cardItem.updateLikesCount();
+        });
+      }
+    },
+    userId
+  );
+  return cardItem.generateCard();
+};
 
 const cardList = new Section(createCard, cardsContainerSelector);
 
