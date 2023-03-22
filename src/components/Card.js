@@ -58,8 +58,13 @@ export default class Card {
     this._likeButton.classList.toggle('elements__like_active');
   }
 
+  toggleLikeDisabled() {
+    this._likeButton.disabled = !this._likeButton.disabled;
+  }
+
   removeCard() {
     this._element.remove();
+    this._element = null;
   }
 
   updateLikesData(updatedCard) {
@@ -72,12 +77,14 @@ export default class Card {
 
   updateLikesCount() {
     this._likesCount.textContent = this._likes.length;
+    this._togleLike();
+    this.toggleLikeDisabled();
   }
 
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => {
+      this.toggleLikeDisabled();
       this._handleLikeClick(this._id);
-      this._togleLike();
     });
     this._cardImage.addEventListener('click', this._handleCardClick);
     this._removeButton.addEventListener('click', this._handleTrashClick);

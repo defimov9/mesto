@@ -45,20 +45,17 @@ api
   .catch((err) => console.log(err));
 
 editButton.addEventListener('click', () => {
-  formValidators['edit-profile'].disableSubmitButton();
   formValidators['edit-profile'].hideFormErrors();
   editProfilePopup.setInputValues(userInfo.getUserInfo());
   editProfilePopup.open();
 });
 
 addButton.addEventListener('click', () => {
-  formValidators['add-photo'].disableSubmitButton();
   formValidators['add-photo'].hideFormErrors();
   addPhotoPopup.open();
 });
 
 updateAvatar.addEventListener('click', () => {
-  formValidators['update-avatar'].disableSubmitButton();
   formValidators['update-avatar'].hideFormErrors();
   popupUpdateAvatar.open();
 });
@@ -75,10 +72,12 @@ const editProfilePopup = new PopupWithForm(
     formValidators['edit-profile'].disableSubmitButton();
     api
       .updateUserInfo(userData)
-      .then((updatedUserInfo) => userInfo.setUserInfo(updatedUserInfo))
+      .then((updatedUserInfo) => {
+        userInfo.setUserInfo(updatedUserInfo);
+        editProfilePopup.close();
+      })
       .catch((err) => console.log(err))
       .finally(() => {
-        editProfilePopup.close();
         editProfilePopup.renderLoading(false);
         formValidators['edit-profile'].enableSubmitButton();
       });
@@ -90,10 +89,12 @@ const addPhotoPopup = new PopupWithForm(addPhotoPopupSelector, (card) => {
   formValidators['add-photo'].disableSubmitButton();
   api
     .addNewCard(card)
-    .then((newCard) => cardList.addItem(newCard))
+    .then((newCard) => {
+      cardList.addItem(newCard);
+      addPhotoPopup.close();
+    })
     .catch((err) => console.log(err))
     .finally(() => {
-      addPhotoPopup.close();
       addPhotoPopup.renderLoading(false);
       formValidators['add-photo'].enableSubmitButton();
     });
@@ -109,10 +110,12 @@ const popupDeleteCard = new PopupWithConfirm(
     formValidators['delete-card'].disableSubmitButton();
     api
       .deleteCard(card._id)
-      .then(() => card.removeCard())
+      .then(() => {
+        card.removeCard();
+        popupDeleteCard.close();
+      })
       .catch((err) => console.log(err))
       .finally(() => {
-        popupDeleteCard.close();
         popupDeleteCard.renderLoading(false);
         formValidators['delete-card'].enableSubmitButton();
       });
@@ -126,10 +129,12 @@ const popupUpdateAvatar = new PopupWithForm(
     formValidators['update-avatar'].disableSubmitButton();
     api
       .updateUserAvatar(link)
-      .then((updatedUserData) => userInfo.setUserInfo(updatedUserData))
+      .then((updatedUserData) => {
+        userInfo.setUserInfo(updatedUserData);
+        popupUpdateAvatar.close();
+      })
       .catch((err) => console.log(err))
       .finally(() => {
-        popupUpdateAvatar.close();
         popupUpdateAvatar.renderLoading(false);
         formValidators['update-avatar'].enableSubmitButton();
       });
@@ -148,15 +153,27 @@ const createCard = (card) => {
     },
     () => {
       if (cardItem.isLiked()) {
-        api.deleteLike(cardItem._id).then((updatedCard) => {
-          cardItem.updateLikesData(updatedCard);
-          cardItem.updateLikesCount();
-        });
+        api
+          .deleteLike(cardItem._id)
+          .then((updatedCard) => {
+            cardItem.updateLikesData(updatedCard);
+            cardItem.updateLikesCount();
+          })
+          .catch((err) => {
+            cardItem.toggleLikeDisabled();
+            console.log(err);
+          });
       } else {
-        api.addLike(cardItem._id).then((updatedCard) => {
-          cardItem.updateLikesData(updatedCard);
-          cardItem.updateLikesCount();
-        });
+        api
+          .addLike(cardItem._id)
+          .then((updatedCard) => {
+            cardItem.updateLikesData(updatedCard);
+            cardItem.updateLikesCount();
+          })
+          .catch((err) => {
+            cardItem.toggleLikeDisabled();
+            console.log(err);
+          });
       }
     },
     userId

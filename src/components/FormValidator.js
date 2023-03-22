@@ -41,6 +41,16 @@ export default class FormValidator {
     });
   }
 
+  disableSubmitButton() {
+    this._buttonElement.disabled = true;
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+  }
+
+  enableSubmitButton() {
+    this._buttonElement.disabled = false;
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+  }
+
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
       this.disableSubmitButton();
@@ -64,19 +74,7 @@ export default class FormValidator {
   }
 
   hideFormErrors() {
-    const invalidInputs = this._form.querySelectorAll(
-      `.${this._inputErrorClass}`
-    );
-    invalidInputs.forEach((input) => this._hideInputError(input));
-  }
-
-  disableSubmitButton() {
-    this._buttonElement.disabled = true;
-    this._buttonElement.classList.add(this._inactiveButtonClass);
-  }
-
-  enableSubmitButton() {
-    this._buttonElement.disabled = false;
-    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._toggleButtonState();
+    this._inputList.forEach((input) => this._hideInputError(input));
   }
 }
