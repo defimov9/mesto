@@ -32,5 +32,33 @@
 ## Figma
 [Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 
+## Инструкция
+
+Чтобы запустить проект, нужно сделать несколько простых шагов.
+
+- Создайте папку и перейдите в неё:
+
+```
+cd <Имя-папки>
+```
+
+- Склонируйте этот репозиторий:
+
+```
+git clone https://github.com/famovkin/mesto.git
+```
+
+- Установите все зависимости:
+
+```
+yarn или npm install
+```
+
+- Теперь можете запустить проект:
+
+```
+npm run dev или yarn run dev
+```
+
 ## GitHub Pages
 [Ссылка на GitHub Pages](https://defimov9.github.io/mesto/index.html)
