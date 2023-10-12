@@ -45,7 +45,7 @@ cd <Имя-папки>
 - Склонируйте этот репозиторий:
 
 ```
-git clone https://github.com/famovkin/mesto.git
+git clone https://github.com/defimov9/mesto.git
 ```
 
 - Установите все зависимости:
